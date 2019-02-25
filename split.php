@@ -6,14 +6,22 @@ system('clear');
 //changes the terminal color to white
 echo("\033[1;37m");
 
+//sets timezone
+date_default_timezone_set("America/New_York");
+//gets the current time for outputting
+function current_time() {
+  // Get the current time
+  return date("m/d/Y h:i:s a", time());
+}
+
 //loops through getting the file to split
 while (@$confirm_file != "y") {
   //asks what file you want to split
-  echo("What file would you like to split?\n");
+  echo("[" . current_time() . "] What file would you like to split?\n");
   //gets the input from the terminal and removes the new line for the file name
   $filename = trim(fgets(STDIN), "\n");
   //asks to confirm file
-  echo("You want to split this file \"$filename\"? [y or n] ");
+  echo("[" . current_time() . "] You want to split this file \"$filename\"? [y or n] ");
   //gets the input from the terminal and removes the new line for the file name conformation
   $confirm_file = trim(fgets(STDIN), "\n");
   //breaks the terminal line
@@ -29,18 +37,18 @@ if (preg_match("{^([\S]*(\\/|\\\))*(?:([\S]+)(\\.[\S]+)|([\S]+))$}",$filename,$f
   //sets either the extention or nothing
   $ext = isset($fm[4]) ? $fm[4] : "";
   //dies due to unable to parse filename
-} else die("ERROR: Could not match \"$filename\" to an path, name, & extention...\n");
+} else die("[" . current_time() . "] ERROR: Could not match \"$filename\" to an path, name, & extention...\n");
 
 //loops through getting the way you want to split the file
 while (@$confirm_option != "y") {
   //asks what you want to split by
-  echo("Would you like to split by size (s) or lines (l)? [Default: s] ");
+  echo("[" . current_time() . "] Would you like to split by size (s) or lines (l)? [Default: s] ");
   //gets the input from the terminal and removes the new line for what to split by
   $split_by = trim(fgets(STDIN), "\n");
   //parses out the actual words for split_by
   $split_by = $split_by == "l" ? "lines" : "size";
   //asks to confirm split method
-  echo("You want to split by $split_by? [y or n] ");
+  echo("[" . current_time() . "] You want to split by $split_by? [y or n] ");
   //gets the input from the terminal and removes the new line for the split method conformation
   $confirm_option = trim(fgets(STDIN), "\n");
   //breaks the terminal line
@@ -52,11 +60,11 @@ if ($split_by == "lines") {
   //loops through getting the lines to split by
   while (@$confirm_lines != "y") {
     //asks how many lines to split by
-    echo("How many lines would you like to split by? [Default: " . number_format(100000) . "] ");
+    echo("[" . current_time() . "] How many lines would you like to split by? [Default: " . number_format(100000) . "] ");
     //gets the input from the terminal and removes the new line for the number of lines to split by
     $number_of_lines = trim(fgets(STDIN), "\n") ?: 100000;
     //asks to confirm the number of lines
-    echo("You want to split by " . number_format($number_of_lines) . " lines? [y or n] ");
+    echo("[" . current_time() . "] You want to split by " . number_format($number_of_lines) . " lines? [y or n] ");
     //gets the input from the terminal and removes the new line for the number of lines conformation
     $confirm_lines = trim(fgets(STDIN), "\n");
     //breaks the terminal line
@@ -66,9 +74,9 @@ if ($split_by == "lines") {
   $size = false;
   
   //outputs that it is getting the line number
-  echo("Getting number of lines...\033[1;37m\n");
+  echo("[" . current_time() . "] Getting number of lines...\033[1;37m\n");
   //outputs that it may take a while on large files
-  echo("Depending on file size this may take some time...\033[1;37m\n");
+  echo("[" . current_time() . "] Depending on file size this may take some time...\033[1;37m\n");
   //opens the file
   $f = @fopen($filename, 'rb');
   //defines the total_line var
@@ -78,7 +86,7 @@ if ($split_by == "lines") {
   //closes the main file
   fclose($f);
   //outputs the number of total lines
-  echo("$total_lines number of lines..\033[1;37m\n");
+  echo("[" . current_time() . "] $total_lines number of lines..\033[1;37m\n");
 
   //gets the estimated number of files from dividing the number of lines
   $number_of_files = ceil(@($total_lines / $number_of_lines));
@@ -87,11 +95,11 @@ if ($split_by == "lines") {
   //loops through getting the size to split by
   while (@$confirm_size != "y") {
     //asks what size to split by
-    echo("How big would like to split the files? [Default: 3mb] ");
+    echo("[" . current_time() . "] How big would like to split the files? [Default: 3mb] ");
     //gets the input from the terminal and removes the new line for the size to split by
     $file_size = trim(fgets(STDIN), "\n") ?: "3mb";
     //asks to confirm the size
-    echo("You want to split the files with a size of $file_size? [y or n] ");
+    echo("[" . current_time() . "] You want to split the files with a size of $file_size? [y or n] ");
     //gets the input from the terminal and removes the new line for the size conformation
     $confirm_size = trim(fgets(STDIN), "\n");
     //breaks the terminal line
@@ -114,14 +122,14 @@ if ($split_by == "lines") {
     //figures out the file size
     $file_size = $m[1] * $multiplier;
     //dies due to unable to parse size
-  } else die("ERROR: Could not match $file_size to an actual size...\n");
+  } else die("[" . current_time() . "] ERROR: Could not match $file_size to an actual size...\n");
 
   //gets the estimated number of files from dividing the size
   $number_of_files = ceil(@(filesize($filename) / $file_size));
 }
 
 //outputs the estimated number of files after the split
-echo("Esitmated number of files: $number_of_files \n\n");
+echo("[" . current_time() . "] Esitmated number of files: $number_of_files \n\n");
 
 //defines the number for the name
 $i = 0;
@@ -130,7 +138,7 @@ $i = 0;
 $file = fopen($filename, "rb");
 if (!file_exists("split/")) mkdir("split/",0777,true);
 
-echo("Splitting $filename...\033[1;37m\n");
+echo("[" . current_time() . "] Splitting $filename...\033[1;37m\n");
 
 //while the main file hasn't ended loop
 while (!feof($file)) {
@@ -169,10 +177,12 @@ while (!feof($file)) {
   //closes the new file
   fclose($new);
   //outputs file has been completed
-  echo("File $i / $number_of_files \033[1;32mCompleted\033[1;37m!\n");
+  echo("[" . current_time() . "] File $i / $number_of_files \033[1;32mCompleted\033[1;37m!\n");
 }
+//breaks the terminal line
+echo("\n");
 //outputs splitting is completed
-echo("\nSplitting of $filename \033[1;32mCompleted\033[1;37m!\n\n");
+echo("[" . current_time() . "] Splitting of $filename \033[1;32mCompleted\033[1;37m!\n\n");
 //closes the file
 fclose($file);
 ?>
