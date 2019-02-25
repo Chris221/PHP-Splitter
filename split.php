@@ -91,7 +91,7 @@ if ($split_by == "lines") {
     //gets the input from the terminal and removes the new line for the size to split by
     $file_size = trim(fgets(STDIN), "\n") ?: "3mb";
     //asks to confirm the size
-    echo("You want to split into $file_size files? [y or n] ");
+    echo("You want to split the files with a size of $file_size? [y or n] ");
     //gets the input from the terminal and removes the new line for the size conformation
     $confirm_size = trim(fgets(STDIN), "\n");
     //breaks the terminal line
@@ -102,13 +102,13 @@ if ($split_by == "lines") {
   //looks for the shorthand size in the text then makes the file_size to split on
   if (preg_match("{^(\d+)(b|kb|mb|gb|tb)?$}i",strtolower($file_size),$m)) {
     //if kilobytes
-    if ($m[2] == "kb") $multiplier = 1024;
+    if (@$m[2] == "kb") $multiplier = 1024;
     //if megabytes
-    else if ($m[2] == "mb") $multiplier = 1024*1024;
+    else if (@$m[2] == "mb") $multiplier = 1024*1024;
     //if gigabytes
-    else if ($m[2] == "gb") $multiplier = 1024*1024*1024;
+    else if (@$m[2] == "gb") $multiplier = 1024*1024*1024;
     //if terabytes
-    else if ($m[2] == "tb") $multiplier = 1024*1024*1024*1024;
+    else if (@$m[2] == "tb") $multiplier = 1024*1024*1024*1024;
     //if bytes or not in shorthand
     else $multiplier = 1;
     //figures out the file size
@@ -121,13 +121,14 @@ if ($split_by == "lines") {
 }
 
 //outputs the estimated number of files after the split
-echo("Esitmated number of files: $number_of_files \n");
+echo("Esitmated number of files: $number_of_files \n\n");
 
 //defines the number for the name
 $i = 0;
 
 //opens the main file
 $file = fopen($filename, "rb");
+if (!file_exists("split/")) mkdir("split/",0777,true);
 
 echo("Splitting $filename...\033[1;37m\n");
 
