@@ -1,5 +1,5 @@
 # PHP File Splitter
-A PHP File Splitter to split larger files into smaller equal ones. This splitter is a binary safe and can handle large files well over 100GB.
+A PHP File Splitter to split larger files into smaller equal ones. THIS SPLITTER NEVER SPLITS MID-LINE. This splitter is a binary safe and can handle large files well over 100GB.
 
 ### How to use
 To run the use the php splitter from a command line run
