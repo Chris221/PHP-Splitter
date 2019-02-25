@@ -138,7 +138,7 @@ while (!feof($file)) {
   @$i++;
   
   //makes the new file name
-  $new_file = "split/$name$i$ext";
+  $new_file = "split/$name.$i$ext";
   //opens the new file
   $new = fopen($new_file,"ab");
   //if splitting on size
