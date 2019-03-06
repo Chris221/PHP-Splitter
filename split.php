@@ -42,11 +42,11 @@ if (preg_match("{^([\S]*(\\/|\\\))*(?:([\S]+)(\\.[\S]+)|([\S]+))$}",$filename,$f
 //loops through getting the way you want to split the file
 while (@$confirm_option != "y") {
   //asks what you want to split by
-  echo("[" . current_time() . "] Would you like to split by size (s) or lines (l)? [Default: s] ");
+  echo("[" . current_time() . "] Would you like to split by size (s) or lines (l)? [Default: l] ");
   //gets the input from the terminal and removes the new line for what to split by
   $split_by = trim(fgets(STDIN), "\n");
   //parses out the actual words for split_by
-  $split_by = $split_by == "l" ? "lines" : "size";
+  $split_by = $split_by == "s" ? "size" : "lines";
   //asks to confirm split method
   echo("[" . current_time() . "] You want to split by $split_by? [y or n] ");
   //gets the input from the terminal and removes the new line for the split method conformation
@@ -60,9 +60,9 @@ if ($split_by == "lines") {
   //loops through getting the lines to split by
   while (@$confirm_lines != "y") {
     //asks how many lines to split by
-    echo("[" . current_time() . "] How many lines would you like to split by? [Default: " . number_format(100000) . "] ");
+    echo("[" . current_time() . "] How many lines would you like to split by? [Default: " . number_format(1000000) . "] ");
     //gets the input from the terminal and removes the new line for the number of lines to split by
-    $number_of_lines = trim(fgets(STDIN), "\n") ?: 100000;
+    $number_of_lines = trim(fgets(STDIN), "\n") ?: 1000000;
     //asks to confirm the number of lines
     echo("[" . current_time() . "] You want to split by " . number_format($number_of_lines) . " lines? [y or n] ");
     //gets the input from the terminal and removes the new line for the number of lines conformation
