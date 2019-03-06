@@ -136,9 +136,22 @@ $i = 0;
 
 //opens the main file
 $file = fopen($filename, "rb");
-if (!file_exists("split/")) mkdir("split/",0777,true);
 
-echo("[" . current_time() . "] Splitting $filename...\033[1;37m\n");
+//defines the folder name
+$folder_name = "split/";
+//defines the folder number
+$fi = 0;
+//if there is a folder loop
+while (file_exists($folder_name)) {
+  //increase the number
+  $fi++;
+  //sets a new name
+  $folder_name = "split$fi/";
+}
+//makes the new folder after it finally doesn't exist
+mkdir($folder_name,0777,true);
+
+echo("[" . current_time() . "] Splitting $filename into $folder_name...\033[1;37m\n");
 
 //while the main file hasn't ended loop
 while (!feof($file)) {
@@ -146,7 +159,7 @@ while (!feof($file)) {
   @$i++;
   
   //makes the new file name
-  $new_file = "split/$name.$i$ext";
+  $new_file = "$folder_name$name.$i$ext";
   //opens the new file
   $new = fopen($new_file,"ab");
   //if splitting on size
