@@ -190,12 +190,12 @@ while (!feof($file)) {
   //closes the new file
   fclose($new);
   //outputs file has been completed
-  echo("[" . current_time() . "] File $i / $number_of_files \033[1;32mCompleted\033[1;37m!\n");
+  echo("[" . current_time() . "] File \033[1;33m" . number_format($i) . "\033[1;37m / \033[1;33m" . number_format($number_of_files) . " \033[1;32mCompleted\033[1;37m!\n");
 }
 //breaks the terminal line
 echo("\n");
 //outputs splitting is completed
-echo("[" . current_time() . "] Splitting of $filename \033[1;32mCompleted\033[1;37m!\n\n");
+echo("[" . current_time() . "] Splitting of $filename  into $folder_name \033[1;32mCompleted\033[1;37m!\n\n");
 //closes the file
 fclose($file);
 ?>
