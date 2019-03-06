@@ -86,7 +86,7 @@ if ($split_by == "lines") {
   //closes the main file
   fclose($f);
   //outputs the number of total lines
-  echo("[" . current_time() . "] $total_lines number of lines..\033[1;37m\n");
+  echo("[" . current_time() . "] " . number_format($total_lines) . " number of lines..\033[1;37m\n");
 
   //gets the estimated number of files from dividing the number of lines
   $number_of_files = ceil(@($total_lines / $number_of_lines));
@@ -129,7 +129,7 @@ if ($split_by == "lines") {
 }
 
 //outputs the estimated number of files after the split
-echo("[" . current_time() . "] Esitmated number of files: $number_of_files \n\n");
+echo("[" . current_time() . "] Esitmated number of files: " . number_format($number_of_files) . " \n\n");
 
 //defines the number for the name
 $i = 0;
