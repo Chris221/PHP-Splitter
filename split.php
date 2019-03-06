@@ -31,11 +31,11 @@ while (@$confirm_file != "y") {
 //looks for the path, name, & extention of the file we are splitting
 if (preg_match("{^([\S]*(\\/|\\\))*(?:([\S]+)(\\.[\S]+)|([\S]+))$}",$filename,$fm)) {
   //sets either the path or nothing
-  $path = isset($fm[1]) ? $fm[1] : "";
+  $path = !empty($fm[1]) ? $fm[1] : "";
   //sets the name of the file from either the 3rd match if there is an extention or from the 5th match if not
-  $name = isset($fm[3]) ? $fm[3] : $fm[5];
+  $name = !empty($fm[3]) ? $fm[3] : $fm[5];
   //sets either the extention or nothing
-  $ext = isset($fm[4]) ? $fm[4] : "";
+  $ext = !empty($fm[4]) ? $fm[4] : "";
   //dies due to unable to parse filename
 } else die("[" . current_time() . "] ERROR: Could not match \"$filename\" to an path, name, & extention...\n");
 
