@@ -7,7 +7,25 @@ system('clear');
 echo("\033[1;37m");
 
 
-$folder = "BTC Collection/";
+
+//loops through getting the folder to combine
+while (@$confirm_folder != "y") {
+  //asks what folder you want to combine
+  echo("[\033[0;37m".current_time()."\033[1;37m] What folder would you like to combine?\n");
+  //gets the input from the terminal and removes the new line for the folder name
+  $folder = trim(fgets(STDIN), "\n");
+  if (substr($folder, -1) != "/") $folder .= "/";
+  //asks to confirm folder
+  echo("[\033[0;37m".current_time()."\033[1;37m] You want to combine the folder \"$folder\"? [y or n] ");
+  //gets the input from the terminal and removes the new line for the folder name conformation
+  $confirm_folder = trim(fgets(STDIN), "\n");
+  //breaks the terminal line
+  echo("\n");
+}
+if (!file_exists($folder)) {
+  echo("[\033[0;37m".current_time()."\033[1;37m] Folder \"$folder\" does not exist.. Stopping...\n\n");
+  die();
+}
 
 
 
