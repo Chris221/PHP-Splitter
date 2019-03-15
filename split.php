@@ -40,11 +40,11 @@ if (preg_match("{^([\S]*(\/|\\\\))*([\S]+)$}",$filename,$fm)) {
 //loops through getting the way you want to split the file
 while (@$confirm_option != "y") {
   //asks what you want to split by
-  echo("[\033[0;37m".current_time()."\033[1;37m] Would you like to split by size (s) or lines (l)? [Default: l] ");
+  echo("[\033[0;37m".current_time()."\033[1;37m] Would you like to split by size (s) or lines (l)? [Default: s] ");
   //gets the input from the terminal and removes the new line for what to split by
   $split_by = trim(fgets(STDIN), "\n");
   //parses out the actual words for split_by
-  $split_by = $split_by == "s" ? "size" : "lines";
+  $split_by = $split_by == "l" ? "lines" : "size";
   //asks to confirm split method
   echo("[\033[0;37m".current_time()."\033[1;37m] You want to split by $split_by? [y or n] ");
   //gets the input from the terminal and removes the new line for the split method conformation
