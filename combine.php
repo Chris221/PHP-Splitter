@@ -31,8 +31,9 @@ function getLines($file) {
 
 echo("[" . current_time() . "] Getting files in $folder...\033[1;37m\n\n");
 
-$local_files = scandir($folder,SCANDIR_SORT_NONE);
+$local_files = scandir($folder,SCANDIR_SORT_ASCENDING);
 
+sort($local_files, SORT_NATURAL);
 $files = [];
 
 foreach($local_files as $file) {
