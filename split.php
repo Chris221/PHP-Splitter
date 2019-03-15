@@ -29,13 +29,11 @@ while (@$confirm_file != "y") {
 }
 
 //looks for the path, name, & extention of the file we are splitting
-if (preg_match("{^([\S]*(\\/|\\\))*(?:([\S]+)(\\.[\S]+)|([\S]+))$}",$filename,$fm)) {
+if (preg_match("{^([\S]*(\/|\\\\))*([\S]+)$}",$filename,$fm)) {
   //sets either the path or nothing
   $path = !empty($fm[1]) ? $fm[1] : "";
-  //sets the name of the file from either the 3rd match if there is an extention or from the 5th match if not
-  $name = !empty($fm[3]) ? $fm[3] : $fm[5];
-  //sets either the extention or nothing
-  $ext = !empty($fm[4]) ? $fm[4] : "";
+  //sets the name of the file 
+  $name = !empty($fm[3]) ? $fm[3] : "";
   //dies due to unable to parse filename
 } else die("[" . current_time() . "] ERROR: Could not match \"$filename\" to an path, name, & extention...\n");
 
@@ -159,7 +157,7 @@ while (!feof($file)) {
   @$i++;
   
   //makes the new file name
-  $new_file = "$folder_name$name.$i$ext";
+  $new_file = "$folder_name$name.part$i";
   //opens the new file
   $new = fopen($new_file,"ab");
   //if splitting on size
