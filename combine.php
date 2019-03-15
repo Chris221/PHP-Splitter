@@ -29,7 +29,7 @@ function getLines($file) {
 }
 
 
-echo("[" . current_time() . "] Getting files in $folder...\033[1;37m\n\n");
+echo("[\033[0;37m".current_time()."\033[1;37m] Getting files in $folder...\033[1;37m\n\n");
 
 $local_files = scandir($folder,SCANDIR_SORT_ASCENDING);
 
@@ -38,34 +38,32 @@ $files = [];
 
 foreach($local_files as $file) {
   if ($file == '.' || $file == '..') continue;
-  $files[] = $file;
+  preg_match("{^(.+)(?=\.part).part\d+$}",$file,$n);
+  if (isset($n[1])) {
+    $name = $n[1];
+    $files[] = $file;
+  } else continue;
 }
 
 $number_of_files = count($files);
 
-echo("[" . current_time() . "] Number of files to combine " . number_format($number_of_files) . " ...\033[1;37m\n");
-echo("[" . current_time() . "] Getting the number of lines.. This may take some time ...\033[1;37m\n\n");
+echo("[\033[0;37m".current_time()."\033[1;37m] Number of files to combine " . number_format($number_of_files) . " ...\033[1;37m\n");
+echo("[\033[0;37m".current_time()."\033[1;37m] Getting the number of lines.. This may take some time ...\033[1;37m\n\n");
 
 $number_of_lines = 0;
 $count = 1;
 foreach($files as $f) {
   $num_lines = getLines($folder . $f);
-  echo("[" . current_time() . "] \033[1;32m" . number_format($count) . "\033[1;37m/\033[1;32m" . number_format($number_of_files) . "\033[1;37m $f: " . number_format($num_lines) . " lines\033[1;37m\n");
+  echo("[\033[0;37m".current_time()."\033[1;37m] \033[1;32m" . number_format($count) . "\033[1;37m/\033[1;32m" . number_format($number_of_files) . "\033[1;37m $f: " . number_format($num_lines) . " lines\033[1;37m\n");
   $number_of_lines += $num_lines;
   $count++;
 }
 
-echo("[" . current_time() . "] Number of lines to combine " . number_format($number_of_lines) . " ...\033[1;37m\n\n");
-
-$i = 1;
-
-while (file_exists("combined.$i.txt")) $i++;
-
-$name = "combined.$i.txt";
+echo("[\033[0;37m".current_time()."\033[1;37m] Number of lines to combine " . number_format($number_of_lines) . " ...\033[1;37m\n\n");
 
 
-echo("[" . current_time() . "] Combining \"$folder\" into \"$name\"...\033[1;37m\n\n");
-$combine = fopen($name,"ab");
+echo("[\033[0;37m".current_time()."\033[1;37m] Combining \"$folder\" into \"$name\"...\033[1;37m\n\n");
+$combine = fopen($name,"wb");
 
 foreach($files as $f) {
   @$current_file_number++;
@@ -76,7 +74,7 @@ foreach($files as $f) {
     fwrite($combine, $line);
   }
 
-  echo("[" . current_time() . "] File " . number_format($current_file_number) . " / "
+  echo("[\033[0;37m".current_time()."\033[1;37m] File " . number_format($current_file_number) . " / "
     . number_format($number_of_files) . " \033[1;32mDone\033[1;37m!\n");
   fclose($file);
 }
@@ -84,7 +82,7 @@ fclose($combine);
 //breaks the terminal line
 echo("\n");
 //outputs splitting is completed
-echo("[" . current_time() . "] Combining of $folder \033[1;32mCompleted\033[1;37m!\n\n");
+echo("[\033[0;37m".current_time()."\033[1;37m] Combining of $folder \033[1;32mCompleted\033[1;37m!\n\n");
 
 
 ?>
